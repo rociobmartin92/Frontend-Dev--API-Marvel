@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Main = () => {
   return (
     <div className="h-screen  flex items-center justify-center flex-col">
@@ -6,9 +8,12 @@ const Main = () => {
       </p>
 
       <div className="flex-row  mt-7">
-        <button className=" border border-3 rounded-md w-[150px] py-1 hover:border-4 mr-3">
+        <Link
+          to="/characters"
+          className=" border border-3 rounded-md w-[150px] py-1 hover:border-4 mr-3"
+        >
           Ver personajes
-        </button>
+        </Link>
         <button className=" border border-3 rounded-md w-[150px] py-1 hover:border-4 ml-3">
           Jugar
         </button>
