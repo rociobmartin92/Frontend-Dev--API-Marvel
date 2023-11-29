@@ -1,6 +1,11 @@
 import "./App.css";
+import { getCharacters } from "./services/superheroes";
 
 function App() {
+  const firtCharacter = getCharacters();
+
+  console.log(firtCharacter);
+
   return (
     <>
       <p className="font-bold text-3xl bg-red-500">
