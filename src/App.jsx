@@ -4,10 +4,13 @@ import "./App.css";
 import Characters from "./views/Characters";
 import Main from "./views/Main";
 import Play from "./views/Play";
-
 import { getCharacters } from "./services/characters";
+import { db } from "./firebase/conection";
+import { ref, onValue } from "firebase/database";
 
 function App() {
+  const [test, setTest] = useState();
+
   const [allCharacters, setAllCharacters] = useState([]);
   const getAll = async () => {
     const results = await getCharacters();
@@ -18,7 +21,20 @@ function App() {
     getAll();
   }, []);
 
-  console.log(allCharacters, "All in App.js");
+  // console.log(allCharacters, "All in App.js");
+
+  //read
+
+  useEffect(() => {
+    onValue(ref(db), (snapshot) => {
+      const data = snapshot.val();
+      if (data !== null) {
+        setTest(data);
+      }
+    });
+  }, []);
+
+  console.log(test);
 
   return (
     <>

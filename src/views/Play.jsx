@@ -22,8 +22,6 @@ const Play = (props) => {
     setShow(true);
   };
 
-  //   console.log("First in PLAY", firsPlayer);
-  //   console.log("Second in PLAY", secondPlayer);
   function handleChange(event) {
     console.log(event.target.value);
     setRounds(event.target.value);
