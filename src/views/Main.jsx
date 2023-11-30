@@ -7,16 +7,13 @@ const Main = () => {
         TORNEO MARVEL
       </p>
 
-      <div className="flex-row  mt-7">
-        <Link
-          to="/characters"
-          className=" border border-3 rounded-md w-[150px] py-1 hover:border-4 mr-3"
-        >
-          Ver personajes
-        </Link>
-        <button className=" border border-3 rounded-md w-[150px] py-1 hover:border-4 ml-3">
-          Jugar
-        </button>
+      <div className="flex  mt-7">
+        <div className=" border border-3 rounded-md w-[150px] py-1 hover:border-4 mr-2">
+          <Link to="/characters">Ver personajes</Link>
+        </div>
+        <div className=" border border-3 rounded-md w-[150px] py-1 hover:border-4 ml-2">
+          <Link to="/play"> Jugar</Link>
+        </div>
       </div>
     </div>
   );
