@@ -5,17 +5,20 @@ const Play = (props) => {
 
   const [firsPlayer, setFirsPlayer] = useState({});
   const [secondPlayer, setSecondPlayer] = useState({});
+  const [indexOne, setIndexOne] = useState(0);
+  const [indexTwo, setIndexTwo] = useState(0);
   const [show, setShow] = useState(false);
   const [rounds, setRounds] = useState(0);
 
   const getRandomCharacter = async () => {
     const indexOne = Math.floor(Math.random() * allCharacters.length);
     let indexTwo;
-
     do {
       indexTwo = await Math.floor(Math.random() * allCharacters.length);
     } while (indexOne === indexTwo);
 
+    setIndexOne(indexOne);
+    setIndexTwo(indexTwo);
     setFirsPlayer(allCharacters[indexOne]);
     setSecondPlayer(allCharacters[indexTwo]);
 
@@ -30,7 +33,7 @@ const Play = (props) => {
   console.log(rounds, "ROUNDS");
 
   return (
-    <>
+    <div className="text-center">
       {/* {loading && <p> BUSCANDO PERSONAJES..</p>} */}
       <div className="">
         <label>Ingresa la cantidad de rounds:</label> <br /> <br />
@@ -41,7 +44,7 @@ const Play = (props) => {
           required
           size="10"
           placeholder="0"
-          className="w-[7%] pl-2"
+          className="w-[9%] pl-2"
         />
       </div>
       <button
@@ -56,28 +59,35 @@ const Play = (props) => {
         A JUGAR
       </button>
       {show && (
-        <div className="sm:flex justify-center mt-7 ">
-          <div className="flex-col mr-3">
-            <img
-              alt={firsPlayer.name}
-              src={`${firsPlayer.thumbnail.path}.jpg`}
-              className="h-[200px] w-[200px] rounded-md "
-            />
-            <p>Jugador 1 </p>
-            <p>{firsPlayer.name}</p>
+        <div>
+          <div className="sm:flex justify-center mt-7 ">
+            <div className="sm:flex-col mr-3 text-center">
+              <p className="mb-3">Jugador 1 </p>
+              <img
+                alt={firsPlayer.name}
+                src={`${firsPlayer.thumbnail.path}.jpg`}
+                className="h-[240px] w-[240px] rounded-md "
+              />
+              <p className="text-red-600 mb-3 italic mt-1">{firsPlayer.name}</p>
+              <p className="font-semibold text-lg">Poder: {indexOne}</p>
+            </div>
+            <div className="flex-col ml-3 ">
+              <p className=" mb-3">Jugador 2</p>
+              <img
+                alt={secondPlayer.name}
+                src={`${secondPlayer.thumbnail.path}.jpg`}
+                className="h-[240px] w-[240px] rounded-md "
+              />
+              <p className="text-red-600 mb-3 italic mt-1">
+                {secondPlayer.name}
+              </p>
+              <p className="font-semibold text-lg">Poder: {indexTwo}</p>
+            </div>
           </div>
-          <div className="flex-col ml-3">
-            <img
-              alt={secondPlayer.name}
-              src={`${secondPlayer.thumbnail.path}.jpg`}
-              className="h-[200px] w-[200px] rounded-md "
-            />
-            <p>Jugador 2</p>
-            <p>{secondPlayer.name}</p>
-          </div>
+          <p className="font-semibold text-lg mt-5">GANADOR: </p>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
