@@ -62,30 +62,36 @@ const Characters = () => {
                 </p>
               )}
               <div className="flex">
-                <div>
-                  <p className="font-bold text-lg">COMICS: </p>
-                  {character.comics.items.map((comic) => (
-                    <p className="text-xs sm:text-sm" key={comic.name}>
-                      {comic.name}
-                    </p>
-                  ))}
-                </div>
-                <div>
-                  <p className="font-bold text-lg">EVENTS: </p>
-                  {character.events.items.map((event) => (
-                    <p className="text-xs sm:text-sm" key={event.name}>
-                      {event.name}
-                    </p>
-                  ))}
-                </div>
-                <div>
-                  <p className="font-bold text-lg">SERIES: </p>
-                  {character.series.items.map((serie) => (
-                    <p className="text-xs sm:text-sm" key={serie.name}>
-                      {serie.name}
-                    </p>
-                  ))}
-                </div>
+                {character.comics.items.length > 0 && (
+                  <div>
+                    <p className="font-bold text-lg">COMICS: </p>
+                    {character.comics.items.map((comic) => (
+                      <p className="text-xs sm:text-sm" key={comic.name}>
+                        {comic.name}
+                      </p>
+                    ))}
+                  </div>
+                )}
+                {character.events.items.length > 0 && (
+                  <div>
+                    <p className="font-bold text-lg">EVENTS: </p>
+                    {character.events.items.map((event) => (
+                      <p className="text-xs sm:text-sm" key={event.name}>
+                        {event.name}
+                      </p>
+                    ))}
+                  </div>
+                )}
+                {character.series.items.length > 0 && (
+                  <div>
+                    <p className="font-bold text-lg">SERIES: </p>
+                    {character.series.items.map((serie) => (
+                      <p className="text-xs sm:text-sm" key={serie.name}>
+                        {serie.name}
+                      </p>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
