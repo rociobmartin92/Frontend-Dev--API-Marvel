@@ -2,19 +2,11 @@ import { useEffect, useState } from "react";
 import { getCharacters } from "../services/characters";
 
 
-const Characters = () => {
+const Characters = (props) => {
+  const allCharacters = props.characters;
+
   const [showModal, setShowModal] = useState(false);
-  const [allCharacters, setAllCharacters] = useState([]);
   const [character, setCharacter] = useState({});
-
-  const getAll = async () => {
-    const results = await getCharacters();
-    setAllCharacters(results);
-  };
-
-  useEffect(() => {
-    getAll();
-  }, []);
 
   console.log(allCharacters);
   console.log("ShowModal", showModal);
@@ -31,7 +23,7 @@ const Characters = () => {
 
   return (
     <>
-      <h1>Todos los personajes</h1>
+      <h1 className=" text-2xl">Todos los personajes</h1>
       <div id="characters" className="h-screen w-screen flex flex-wrap ">
         {allCharacters.map((char) => (
           <div
@@ -55,16 +47,19 @@ const Characters = () => {
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl ">
               {/*Content*/}
-              <p className="font-bold text-lg mb-5">Nombre: {character.name}</p>
+              <p className="font-bold text-lg mb-5">
+                Nombre: <span className="font-normal"> {character.name}</span>
+              </p>
               {character.description && (
                 <p className="font-bold text-lg mb-5">
-                  Descripción: {character.description}
+                  Descripción:
+                  <span className="font-normal"> {character.description} </span>
                 </p>
               )}
               <div className="flex">
                 {character.comics.items.length > 0 && (
                   <div>
-                    <p className="font-bold text-lg">COMICS: </p>
+                    <p className="font-bold text-lg underline">COMICS: </p>
                     {character.comics.items.map((comic) => (
                       <p className="text-xs sm:text-sm" key={comic.name}>
                         {comic.name}
@@ -74,7 +69,7 @@ const Characters = () => {
                 )}
                 {character.events.items.length > 0 && (
                   <div>
-                    <p className="font-bold text-lg">EVENTS: </p>
+                    <p className="font-bold text-lg underline">EVENTS: </p>
                     {character.events.items.map((event) => (
                       <p className="text-xs sm:text-sm" key={event.name}>
                         {event.name}
@@ -84,7 +79,7 @@ const Characters = () => {
                 )}
                 {character.series.items.length > 0 && (
                   <div>
-                    <p className="font-bold text-lg">SERIES: </p>
+                    <p className="font-bold text-lg underline">SERIES: </p>
                     {character.series.items.map((serie) => (
                       <p className="text-xs sm:text-sm" key={serie.name}>
                         {serie.name}
