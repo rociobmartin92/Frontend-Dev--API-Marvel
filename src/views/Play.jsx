@@ -72,6 +72,7 @@ const Play = (props) => {
           size="10"
           placeholder="0"
           className="w-[9%] pl-2"
+          value={rounds}
         />
       </div>
       <button
@@ -81,7 +82,10 @@ const Play = (props) => {
             ? "bg-red-600  text-white p-2 rounded-lg mt-4"
             : "bg-green-700  text-white p-2 rounded-lg mt-4"
         }
-        onClick={() => getFights()}
+        onClick={() => {
+          setRounds(0);
+          getFights();
+        }}
       >
         A JUGAR
       </button>
