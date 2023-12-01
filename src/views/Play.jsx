@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ref, onValue, set } from "firebase/database";
+import { ref, onValue, set, push, get } from "firebase/database";
 import { db } from "../firebase/conection";
 import { useGetFights } from "../hooks/useGetFights";
 
@@ -7,6 +7,7 @@ const Play = (props) => {
   const allCharacters = props.characters;
   const [rounds, setRounds] = useState(0);
   const [winners, setWinners] = useState([]);
+  const [ranking, setRanking] = useState([]);
 
   const { getFights, fights } = useGetFights(allCharacters, rounds);
 
@@ -32,32 +33,78 @@ const Play = (props) => {
     });
 
     setWinners(newWinners);
+
+    // winners.forEach((winner) => {
+    //   // Guardar cada ganador individualmente
+    //   set(get(winnersRef, winner.id.toString()), {
+    //     id: winner.id,
+    //     name: winner.name,
+    //     victory: 1,
+    //   });
+    // });
   };
 
   const onHandleSetWinners = () => {
-    // determineWinners();
     setShow(true);
-    saveWinner();
-    const saveWinner = (winners) => {
-      set(ref(db, "winners/" + winners), {
-        // body
-      });
-    };
-  };
 
+    const nodo = ref(db, "winners");
+    const newWinners = [...winners];
+
+    newWinners.forEach((winner) => {
+      const winnerRef = ref(db, `winners/${winner.id}`);
+
+      // Obtén los datos actuales del ganador
+      get(winnerRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const currentData = snapshot.val();
+
+          // Verifica si el campo 'victories' existe
+          const currentVictories = currentData.victories || 0;
+
+          // Incrementa el número de victorias
+          const newVictories = currentVictories + 1;
+
+          // Actualiza el número de victorias en la base de datos
+          set(winnerRef, {
+            ...currentData,
+            victories: newVictories,
+          });
+        } else {
+          // Si el ganador no existe en la base de datos, crea un nuevo registro
+          set(winnerRef, {
+            id: winner.id,
+            name: winner.name,
+            victories: 1,
+          });
+        }
+      });
+    });
+  };
   useEffect(() => {
     determineWinners();
   }, [fights]);
 
-  // // WRITE IN DB
-  // const saveWinner = (characterId) => {
-  //   set(ref(db, "winners/" + characterId), {
-  //     // body
-  //   });
-  // };
+  useEffect(() => {
+    const nodo = ref(db, "winners");
 
-  console.log(fights, "Fights");
-  console.log(winners, "WINNERS");
+    // Escucha los cambios en el nodo 'winners'
+    const unsubscribe = onValue(nodo, (snapshot) => {
+      const data = snapshot.val();
+
+      if (data) {
+        const characterList = Object.values(data).map((character) => ({
+          id: character.id,
+          name: character.name,
+          victories: character.victories || 0,
+        }));
+
+        setRanking(characterList);
+      }
+    });
+
+    // Devuelve la función de limpieza al desmontar el componente
+    return () => unsubscribe();
+  }, [winners]);
 
   return (
     <div className="text-center">
@@ -144,33 +191,17 @@ const Play = (props) => {
       )}
 
       {show && winners.map((el) => <p key={el.id}> {el.name} </p>)}
-      {/* {show && ( 
-      {/* <div>
-        <div className="sm:flex justify-center mt-7 ">
-          <div className="sm:flex-col mr-3 text-center">
-            <p className="mb-3">Jugador 1 </p>
-            <img
-              alt={firsPlayer.name}
-              src={`${firsPlayer.thumbnail.path}.jpg`}
-              className="h-[240px] w-[240px] rounded-md "
-            />
-            <p className="text-red-600 mb-3 italic mt-1">{firsPlayer.name}</p>
-            <p className="font-semibold text-lg">Poder: {indexOne}</p>
-          </div>
-          <div className="flex-col ml-3 ">
-            <p className=" mb-3">Jugador 2</p>
-            <img
-              alt={secondPlayer.name}
-              src={`${secondPlayer.thumbnail.path}.jpg`}
-              className="h-[240px] w-[240px] rounded-md "
-            />
-            <p className="text-red-600 mb-3 italic mt-1">{secondPlayer.name}</p>
-            <p className="font-semibold text-lg">Poder: {indexTwo}</p>
-          </div>
-        </div>
-
-      </div> */}
-      {/* )} */}
+      <div>
+        <h2>Lista de Personajes</h2>
+        <ul>
+          {ranking.map((character) => (
+            <li key={character.id} className="flex">
+              <p className="mr-2">{character.name}</p>
+              <p>Victorias: {character.victories}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
