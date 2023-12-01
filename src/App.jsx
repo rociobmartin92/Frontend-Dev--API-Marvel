@@ -6,7 +6,7 @@ import Main from "./views/Main";
 import Play from "./views/Play";
 import { getCharacters } from "./services/characters";
 import { db } from "./firebase/conection";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, set } from "firebase/database";
 
 function App() {
   const [test, setTest] = useState();
@@ -23,7 +23,7 @@ function App() {
 
   // console.log(allCharacters, "All in App.js");
 
-  //read
+  // READ
 
   useEffect(() => {
     onValue(ref(db), (snapshot) => {
