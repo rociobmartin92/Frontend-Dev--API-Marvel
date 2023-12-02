@@ -8,14 +8,10 @@ const Characters = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [character, setCharacter] = useState({});
 
-  console.log(allCharacters);
-  console.log("ShowModal", showModal);
-
   const onHandleChar = (item) => {
     setCharacter(item);
     setShowModal(true);
   };
-  console.log("Character", character);
 
   const closeModal = () => {
     setShowModal(false);

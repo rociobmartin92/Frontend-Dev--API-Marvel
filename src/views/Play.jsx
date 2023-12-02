@@ -4,6 +4,7 @@ import { db } from "../firebase/conection";
 import { useGetFights } from "../hooks/useGetFights";
 import { Link } from "react-router-dom";
 import Game from "../assets/Game";
+import Input from "../components/Input";
 
 const Play = (props) => {
   const allCharacters = props.characters;
@@ -13,8 +14,6 @@ const Play = (props) => {
 
   const { getFights, fights } = useGetFights(allCharacters, rounds);
 
-  const [show, setShow] = useState(false);
-
   const onHandleSetWinners = () => {
     const nodo = ref(db, "winners");
     const newWinners = [...winners];
@@ -22,7 +21,7 @@ const Play = (props) => {
     newWinners.forEach((winner) => {
       const winnerRef = ref(db, `winners/${winner.id}`);
 
-      // Obtén los datos actuales del ganador
+      // Obtengo los datos actuales del ganador
       get(winnerRef).then((snapshot) => {
         if (snapshot.exists()) {
           const currentData = snapshot.val();
@@ -94,20 +93,13 @@ const Play = (props) => {
 
   return (
     <div className="text-center p-8">
-      {/* {loading && <p> BUSCANDO PERSONAJES..</p>} */}
-      <div className="mb-4">
-        <label className="block mb-2">Ingresa el número de veladas:</label>
-        <input
-          min={0}
-          onChange={handleChange}
-          type="number"
-          required
-          size="10"
-          placeholder="0"
-          className="w-[9%] pl-2 border rounded-md"
-          value={rounds}
-        />
-      </div>
+      <Input
+        handleChange={handleChange}
+        value={rounds}
+        label="Ingresa el número de veladas:"
+        type="number"
+        placeHolder="0"
+      />
       <button
         disabled={rounds > 0 ? false : true}
         className={`${
@@ -123,46 +115,43 @@ const Play = (props) => {
         </div>
       </button>
 
-      {!show && (
-        <div className="mt-5 space-y-8">
-          {fights.map((pair, index) => (
-            <>
-              <div className="grid grid-cols-1 divide-y divide-gray-600">
-                <div></div>
-                <div>
-                  <p className="my-2 text-gray-600">Velada N:{index + 1} </p>
-                </div>
-                <div></div>
+      <div className="mt-5 space-y-8">
+        {fights.map((pair, index) => (
+          <>
+            <div className="grid grid-cols-1 divide-y divide-gray-600">
+              <div></div>
+              <div>
+                <p className="my-2 text-gray-600">Velada N:{index + 1} </p>
               </div>
-              <div key={index} className="flex justify-around">
-                {pair.map((character) => (
-                  <div key={character.id} className="flex-col mr-3 text-center">
-                    <h2 className="text-red-600 mb-3 italic mt-1">
-                      {character.name}
-                    </h2>
-                    <img
-                      src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
-                      alt={character.name}
-                      className="h-[280px] w-[280px] rounded-md"
-                    />
-                    <p className="font-semibold mt-3 text-lg">
-                      Poder: {character.id}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </>
-          ))}
-          {winners.map((winner, index) => (
-            <div key={winner.id} className="flex">
-              <p>Ganador Velada N:{index + 1}</p>
-              <p className="ml-2">{winner.name}</p>
+              <div></div>
             </div>
-          ))}
-        </div>
-      )}
+            <div key={index} className="flex justify-around">
+              {pair.map((character) => (
+                <div key={character.id} className="flex-col mr-3 text-center">
+                  <h2 className="text-red-600 mb-3 italic mt-1">
+                    {character.name}
+                  </h2>
+                  <img
+                    src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
+                    alt={character.name}
+                    className="h-[280px] w-[280px] rounded-md"
+                  />
+                  <p className="font-semibold mt-3 text-lg">
+                    Poder: {character.id}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </>
+        ))}
+        {winners.map((winner, index) => (
+          <div key={winner.id} className="flex">
+            <p>Ganador Velada N:{index + 1}</p>
+            <p className="ml-2">{winner.name}</p>
+          </div>
+        ))}
+      </div>
 
-      {show && winners.map((el) => <p key={el.id}>{el.name}</p>)}
       <div className="mt-4">
         <Link
           onClick={() => onHandleSetWinners()}

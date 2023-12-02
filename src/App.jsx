@@ -10,8 +10,6 @@ import { ref, onValue, set } from "firebase/database";
 import Ranking from "./views/Ranking";
 
 function App() {
-  const [test, setTest] = useState();
-
   const [allCharacters, setAllCharacters] = useState([]);
   const getAll = async () => {
     const results = await getCharacters();
@@ -21,21 +19,6 @@ function App() {
   useEffect(() => {
     getAll();
   }, []);
-
-  // console.log(allCharacters, "All in App.js");
-
-  // READ
-
-  useEffect(() => {
-    onValue(ref(db), (snapshot) => {
-      const data = snapshot.val();
-      if (data !== null) {
-        setTest(data);
-      }
-    });
-  }, []);
-
-  console.log(test);
 
   return (
     <>

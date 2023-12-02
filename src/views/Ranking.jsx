@@ -1,20 +1,61 @@
-import { ref, set, get } from "firebase/database";
-import { db } from "../firebase/conection";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import IconStar from "../assets/IconStar";
+import Input from "../components/Input";
 
 const Ranking = () => {
   const location = useLocation();
   const { ranking } = location.state;
+  const [orderBy, setOrderBy] = useState("");
+  const [sortedRanking, setSortedRanking] = useState([]);
+  const [text, setText] = useState("");
 
-  const sortedRanking = ranking.sort((a, b) => b.victories - a.victories);
+  useEffect(() => {
+    const sortedArray = [...ranking].sort((a, b) => {
+      if (orderBy === "large") {
+        return b.victories - a.victories;
+      } else {
+        return a.victories - b.victories;
+      }
+    });
+
+    setSortedRanking(sortedArray);
+  }, [ranking, orderBy]);
+
+  const onHandleSelect = (event) => {
+    setOrderBy(event.target.value);
+  };
+
+  const handleChange = (event) => {
+    console.log(event.target.value);
+  };
 
   return (
     <div className="container mt-4">
-      <div className="flex  justify-center">
-        <IconStar color="#FFD700" />
-        <h2 className="text-2xl font-bold mb-4 ml-1">Ranking</h2>
+      <div className="">
+        <div className="flex  justify-center">
+          <IconStar color="#FFD700" />
+          <h2 className="text-2xl font-bold mb-4 ml-1">Ranking</h2>
+        </div>
+        <select
+          onChange={onHandleSelect}
+          id="orderBy"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option className="sm:text-sm text-xs" value="less">
+            Menor a mayor
+          </option>
+          <option selected value="large" className="sm:text-sm text-xs">
+            Mayor a menor
+          </option>
+        </select>
+
+        <Input
+          type="text"
+          handleChange={handleChange}
+          value={text}
+          placeHolder="Buscar superhéroe"
+        />
       </div>
       <ul className="space-y-4">
         {sortedRanking.map((character) => (
