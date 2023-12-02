@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ref, onValue, set, push, get } from "firebase/database";
 import { db } from "../firebase/conection";
 import { useGetFights } from "../hooks/useGetFights";
+import { Link } from "react-router-dom";
 
 const Play = (props) => {
   const allCharacters = props.characters;
@@ -12,6 +13,37 @@ const Play = (props) => {
   const { getFights, fights } = useGetFights(allCharacters, rounds);
 
   const [show, setShow] = useState(false);
+
+  const onHandleSetWinners = () => {
+    const nodo = ref(db, "winners");
+    const newWinners = [...winners];
+
+    newWinners.forEach((winner) => {
+      const winnerRef = ref(db, `winners/${winner.id}`);
+
+      // Obtén los datos actuales del ganador
+      get(winnerRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const currentData = snapshot.val();
+
+          const currentVictories = currentData.victories || 0;
+
+          const newVictories = currentVictories + 1;
+
+          set(winnerRef, {
+            ...currentData,
+            victories: newVictories,
+          });
+        } else {
+          set(winnerRef, {
+            id: winner.id,
+            name: winner.name,
+            victories: 1,
+          });
+        }
+      });
+    });
+  };
 
   const handleChange = (event) => {
     // console.log(typeof Number(event.target.value));
@@ -33,53 +65,8 @@ const Play = (props) => {
     });
 
     setWinners(newWinners);
-
-    // winners.forEach((winner) => {
-    //   // Guardar cada ganador individualmente
-    //   set(get(winnersRef, winner.id.toString()), {
-    //     id: winner.id,
-    //     name: winner.name,
-    //     victory: 1,
-    //   });
-    // });
   };
 
-  const onHandleSetWinners = () => {
-    setShow(true);
-
-    const nodo = ref(db, "winners");
-    const newWinners = [...winners];
-
-    newWinners.forEach((winner) => {
-      const winnerRef = ref(db, `winners/${winner.id}`);
-
-      // Obtén los datos actuales del ganador
-      get(winnerRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          const currentData = snapshot.val();
-
-          // Verifica si el campo 'victories' existe
-          const currentVictories = currentData.victories || 0;
-
-          // Incrementa el número de victorias
-          const newVictories = currentVictories + 1;
-
-          // Actualiza el número de victorias en la base de datos
-          set(winnerRef, {
-            ...currentData,
-            victories: newVictories,
-          });
-        } else {
-          // Si el ganador no existe en la base de datos, crea un nuevo registro
-          set(winnerRef, {
-            id: winner.id,
-            name: winner.name,
-            victories: 1,
-          });
-        }
-      });
-    });
-  };
   useEffect(() => {
     determineWinners();
   }, [fights]);
@@ -87,7 +74,6 @@ const Play = (props) => {
   useEffect(() => {
     const nodo = ref(db, "winners");
 
-    // Escucha los cambios en el nodo 'winners'
     const unsubscribe = onValue(nodo, (snapshot) => {
       const data = snapshot.val();
 
@@ -102,7 +88,6 @@ const Play = (props) => {
       }
     });
 
-    // Devuelve la función de limpieza al desmontar el componente
     return () => unsubscribe();
   }, [winners]);
 
@@ -141,12 +126,6 @@ const Play = (props) => {
         <div className="mt-5">
           {fights.map((pair, index) => (
             <>
-              {/* <p
-                className=" text-lg text-red-600  font-bold mt-6"
-                style={{ marginBottom: "-55px" }}
-              >
-                vs
-              </p> */}
               <div
                 key={index}
                 style={{
@@ -179,28 +158,25 @@ const Play = (props) => {
             </>
           ))}
           {winners.map((winner, index) => (
-            <div key={winner.id} className="flex">
-              <p>Ganador Velada N:{index + 1} </p>
-              <p className="ml-2"> {winner.name} </p>
-            </div>
+            <>
+              <div key={winner.id} className="flex">
+                <p>Ganador Velada N:{index + 1} </p>
+                <p className="ml-2"> {winner.name} </p>
+              </div>
+            </>
           ))}
-          <button onClick={() => onHandleSetWinners()}>
-            Ver historial de ganadores
-          </button>
         </div>
       )}
 
       {show && winners.map((el) => <p key={el.id}> {el.name} </p>)}
       <div>
-        <h2>Lista de Personajes</h2>
-        <ul>
-          {ranking.map((character) => (
-            <li key={character.id} className="flex">
-              <p className="mr-2">{character.name}</p>
-              <p>Victorias: {character.victories}</p>
-            </li>
-          ))}
-        </ul>
+        <Link
+          onClick={() => onHandleSetWinners()}
+          to="/ranking"
+          state={{ ranking: ranking }}
+        >
+          Ver historial de ganadores
+        </Link>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import Play from "./views/Play";
 import { getCharacters } from "./services/characters";
 import { db } from "./firebase/conection";
 import { ref, onValue, set } from "firebase/database";
+import Ranking from "./views/Ranking";
 
 function App() {
   const [test, setTest] = useState();
@@ -46,6 +47,7 @@ function App() {
             element={<Characters characters={allCharacters} />}
           />
           <Route path="/play" element={<Play characters={allCharacters} />} />
+          <Route path="/ranking" element={<Ranking />} />
         </Routes>
       </Router>
     </>
