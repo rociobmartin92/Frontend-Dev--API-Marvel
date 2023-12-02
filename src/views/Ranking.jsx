@@ -2,25 +2,29 @@ import { ref, set, get } from "firebase/database";
 import { db } from "../firebase/conection";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import IconStar from "../assets/IconStar";
 
 const Ranking = () => {
   const location = useLocation();
   const { ranking } = location.state;
 
-  console.log("RANKING", ranking);
+  const sortedRanking = ranking.sort((a, b) => b.victories - a.victories);
 
   return (
     <div className="container mt-4">
-      <h2 className="text-2xl font-bold mb-4">Ranking</h2>
+      <div className="flex  justify-center">
+        <IconStar color="#FFD700" />
+        <h2 className="text-2xl font-bold mb-4 ml-1">Ranking</h2>
+      </div>
       <ul className="space-y-4">
-        {ranking.map((character) => (
+        {sortedRanking.map((character) => (
           <li
             key={character.id}
             className="flex items-center justify-between bg-gray-700 p-4 rounded-md"
           >
             <span className="mr-2">{character.name}</span>
             <span className="font-semibold">
-              Victorias: {character.victories}
+              {character.victories} victorias
             </span>
           </li>
         ))}

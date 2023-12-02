@@ -43,25 +43,25 @@ const Characters = (props) => {
         {showModal ? (
           <div
             onClick={closeModal}
-            className="  justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-black"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 w-screen h-screen"
           >
-            <div className="relative w-auto my-6 mx-auto max-w-3xl ">
-              {/*Content*/}
+            <div className="bg-gradient-to-r from-black via-blue-950 to-blue-900 text-white max-w-3xl p-6 rounded-md">
+              {/* Content */}
               <p className="font-bold text-lg mb-5">
-                Nombre: <span className="font-normal"> {character.name}</span>
+                Nombre: <span className="font-normal">{character.name}</span>
               </p>
               {character.description && (
                 <p className="font-bold text-lg mb-5">
-                  Descripción:
-                  <span className="font-normal"> {character.description} </span>
+                  Descripción:{" "}
+                  <span className="font-normal">{character.description}</span>
                 </p>
               )}
-              <div className="flex">
+              <div className="flex space-x-4">
                 {character.comics.items.length > 0 && (
                   <div>
                     <p className="font-bold text-lg underline">COMICS: </p>
                     {character.comics.items.map((comic) => (
-                      <p className="text-xs sm:text-sm" key={comic.name}>
+                      <p className="text-sm" key={comic.name}>
                         {comic.name}
                       </p>
                     ))}
@@ -71,7 +71,7 @@ const Characters = (props) => {
                   <div>
                     <p className="font-bold text-lg underline">EVENTS: </p>
                     {character.events.items.map((event) => (
-                      <p className="text-xs sm:text-sm" key={event.name}>
+                      <p className="text-sm" key={event.name}>
                         {event.name}
                       </p>
                     ))}
@@ -81,16 +81,12 @@ const Characters = (props) => {
                   <div>
                     <p className="font-bold text-lg underline">SERIES: </p>
                     {character.series.items.map((serie) => (
-                      <p className="text-xs sm:text-sm" key={serie.name}>
+                      <p className="text-sm" key={serie.name}>
                         {serie.name}
                       </p>
                     ))}
                   </div>
                 )}
-              </div>
-
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
               </div>
             </div>
           </div>
