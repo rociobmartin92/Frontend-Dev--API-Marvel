@@ -29,3 +29,5 @@ export const getSingularCharacter = async (id) => {
     throw error;
   }
 };
+
+

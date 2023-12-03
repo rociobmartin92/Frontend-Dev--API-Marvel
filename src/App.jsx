@@ -11,14 +11,25 @@ import Ranking from "./views/Ranking";
 
 function App() {
   const [allCharacters, setAllCharacters] = useState([]);
+
+
+
+
   const getAll = async () => {
     const results = await getCharacters();
+
+    // {orderBy: stateSelect}
     setAllCharacters(results);
   };
 
-  useEffect(() => {
-    getAll();
-  }, []);
+  useEffect(
+    () => {
+      getAll();
+    },
+    [
+      // stateSelect
+    ]
+  );
 
   return (
     <>
