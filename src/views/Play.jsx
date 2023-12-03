@@ -107,7 +107,7 @@ const Play = (props) => {
           <>
             <div className="grid grid-cols-1 divide-y divide-gray-600">
               <div>
-                <p className="my-2 text-gray-600">Velada N:{index + 1} </p>
+                <p className="my-2 text-gray-600">Pelea N°{index + 1} </p>
               </div>
             </div>
             <div key={index} className="flex justify-around">
@@ -120,7 +120,7 @@ const Play = (props) => {
 
         {winners.map((winner, index) => (
           <div key={winner.id} className="flex">
-            <p>Ganador Velada N:{index + 1}</p>
+            <p>Ganador de la pelea N°{index + 1}</p>
             <p className="ml-2">{winner.name}</p>
           </div>
         ))}

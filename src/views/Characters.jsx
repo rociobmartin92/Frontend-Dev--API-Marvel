@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { getCharacters } from "../services/characters";
+
 import { Link } from "react-router-dom";
 
 const Characters = (props) => {
@@ -94,7 +95,5 @@ const Characters = (props) => {
     </>
   );
 };
-
-
 
 export default Characters;
