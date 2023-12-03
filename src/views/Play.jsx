@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ref, onValue, set, push, get } from "firebase/database";
+import { ref, set, get } from "firebase/database";
 import { db } from "../firebase/conection";
 import { useGetFights } from "../hooks/useGetFights";
 import { Link } from "react-router-dom";
@@ -12,8 +12,6 @@ const Play = (props) => {
   const allCharacters = props.characters;
   const [rounds, setRounds] = useState(0);
   const [winners, setWinners] = useState([]);
-  const [highLight, setHighLight] = useState(false);
-
   const { getFights, fights } = useGetFights(allCharacters, rounds);
   const { ranking, getRanking } = useGetRanking();
 
@@ -47,9 +45,6 @@ const Play = (props) => {
       });
     });
   };
-
-  console.log("WINNERS", winners);
-  console.log("RANKING", ranking);
 
   const handleChange = (event) => {
     setRounds(Number(event.target.value));
