@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getCharacters } from "../services/characters";
-
+import { Link } from "react-router-dom";
 
 const Characters = (props) => {
   const allCharacters = props.characters;
@@ -57,7 +57,7 @@ const Characters = (props) => {
                   <div>
                     <p className="font-bold text-lg underline">COMICS: </p>
                     {character.comics.items.map((comic) => (
-                      <p className="text-sm" key={comic.name}>
+                      <p className="text-xs" key={comic.name}>
                         {comic.name}
                       </p>
                     ))}
@@ -67,7 +67,7 @@ const Characters = (props) => {
                   <div>
                     <p className="font-bold text-lg underline">EVENTS: </p>
                     {character.events.items.map((event) => (
-                      <p className="text-sm" key={event.name}>
+                      <p className="text-xs" key={event.name}>
                         {event.name}
                       </p>
                     ))}
@@ -77,13 +77,16 @@ const Characters = (props) => {
                   <div>
                     <p className="font-bold text-lg underline">SERIES: </p>
                     {character.series.items.map((serie) => (
-                      <p className="text-sm" key={serie.name}>
+                      <p className="text-xs" key={serie.name}>
                         {serie.name}
                       </p>
                     ))}
                   </div>
                 )}
               </div>
+              <Link to={character.urls[2].url} className="hover:text-xl">
+                VER MÁS
+              </Link>
             </div>
           </div>
         ) : null}

@@ -31,6 +31,8 @@ function App() {
     ]
   );
 
+console.log(allCharacters);
+
   return (
     <>
       <Router>
