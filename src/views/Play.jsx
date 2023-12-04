@@ -103,6 +103,7 @@ const Play = (props) => {
       </button>
 
       <div className="mt-5 space-y-8">
+        {/* Fights:  */}
         {fights.map((pair, index) => (
           <>
             <div className="grid grid-cols-1 divide-y divide-gray-600">
@@ -117,7 +118,7 @@ const Play = (props) => {
             </div>
           </>
         ))}
-
+        {/* Winners: */}
         {winners.map((winner, index) => (
           <div key={winner.id} className="flex">
             <p>Ganador de la pelea N°{index + 1}</p>
@@ -125,17 +126,14 @@ const Play = (props) => {
           </div>
         ))}
       </div>
-
-      <div className="mt-4">
-        <Link
-          onClick={() => onHandleSetWinners()}
-          to="/ranking"
-          state={{ ranking: ranking }}
-          className="text-blue-500 hover:underline"
-        >
-          Ver ranking
-        </Link>
-      </div>
+      <Link
+        onClick={() => onHandleSetWinners()}
+        to="/ranking"
+        state={{ ranking: ranking }}
+        className="text-blue-500 hover:underline mt-4"
+      >
+        Ver Ranking Histórico
+      </Link>
     </div>
   );
 };

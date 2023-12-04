@@ -1,5 +1,4 @@
-import React from "react";
-
+/* eslint-disable react/prop-types */
 const Input = ({ handleChange, value, type, label, placeHolder }) => {
   return (
     <div className="mb-4">
