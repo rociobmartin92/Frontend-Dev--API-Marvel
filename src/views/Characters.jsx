@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-
-import { Link } from "react-router-dom";
 import Modal from "../components/Modal";
 import CharacterBox from "../components/CharacterBox";
 import Pagination from "../components/Pagination";
+import { Spinner } from "@material-tailwind/react";
 
 const Characters = (props) => {
   const allCharacters = props.characters;
+  const loading = props.loading;
 
   const [showModal, setShowModal] = useState(false);
   const [character, setCharacter] = useState({});
@@ -30,6 +30,16 @@ const Characters = (props) => {
 
   // Cambiar página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // console.log("LOADIG", loading);
+
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div className="w-screen h-screen items-center justify-center">

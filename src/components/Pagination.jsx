@@ -5,7 +5,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
-  console.log(postsPerPage, totalPosts, paginate);
+  //   console.log(postsPerPage, totalPosts, paginate);
   return (
     <nav className="cursor-pointer absolute bottom-0 pb-6 ml-5">
       <ul className="flex">

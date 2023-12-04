@@ -11,10 +11,13 @@ import Ranking from "./views/Ranking";
 
 function App() {
   const [allCharacters, setAllCharacters] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getAll = async () => {
+    setLoading(true);
     const results = await getCharacters();
     setAllCharacters(results);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -30,7 +33,9 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route
             path="/characters"
-            element={<Characters characters={allCharacters} />}
+            element={
+              <Characters characters={allCharacters} loading={loading} />
+            }
           />
           <Route path="/play" element={<Play characters={allCharacters} />} />
           <Route path="/ranking" element={<Ranking />} />
