@@ -1,18 +1,19 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import CharacterBox from "../components/CharacterBox";
 import Pagination from "../components/Pagination";
 import { Spinner } from "@material-tailwind/react";
+import Back from "../assets/Back";
+import { getCharacters } from "../services/characters";
 
-const Characters = (props) => {
-  const allCharacters = props.characters;
-  const loading = props.loading;
-
+const Characters = () => {
+  const [allCharacters, setAllCharacters] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [character, setCharacter] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
+
+  const [offset, setOffset] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const onHandleChar = (item) => {
     setCharacter(item);
@@ -22,16 +23,21 @@ const Characters = (props) => {
   const closeModal = () => {
     setShowModal(false);
   };
+  const getAll = async () => {
+    setLoading(true);
+    const results = await getCharacters({ limit: 10, offset });
+    setAllCharacters(results);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getAll();
+  }, [offset]);
 
   // Obtener actuales posts
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = allCharacters.slice(indexOfFirstPost, indexOfLastPost);
 
   // Cambiar página
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // console.log("LOADIG", loading);
+  const paginate = (pageNumbers) => setOffset(10 * (pageNumbers - 1));
 
   if (loading) {
     return (
@@ -42,13 +48,10 @@ const Characters = (props) => {
   }
 
   return (
-    <div className="w-screen h-screen items-center justify-center">
-      <CharacterBox onHandleChar={onHandleChar} allCharacters={currentPosts} />
-      <Pagination
-        postsPerPage={postsPerPage}
-        totalPosts={allCharacters.length}
-        paginate={paginate}
-      />
+    <div className="container mx-auto items-center justify-center ">
+      <Back color="#FFFFFF" />
+      <CharacterBox onHandleChar={onHandleChar} allCharacters={allCharacters} />
+      <Pagination paginate={paginate} />
       {showModal ? (
         <Modal character={character} closeModal={closeModal} />
       ) : null}

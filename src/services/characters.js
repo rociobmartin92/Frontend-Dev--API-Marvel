@@ -2,10 +2,10 @@ import axios from "axios";
 
 const apiKeyParam = `apikey=${import.meta.env.VITE_PUBLIC_KEY}`;
 
-export const getCharacters = async () => {
+export const getCharacters = async (setting = { limit: 99, offset: 0 }) => {
   const url = `${
     import.meta.env.VITE_PUBLIC_URL
-  }/characters?${apiKeyParam}&limit=100`;
+  }/characters?${apiKeyParam}&limit=${setting.limit}&offset=${setting.offset}`;
 
   try {
     const response = await axios.get(url);

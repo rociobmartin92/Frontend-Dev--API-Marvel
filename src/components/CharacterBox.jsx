@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 const CharacterBox = ({ allCharacters, onHandleChar }) => {
   return (
-    <div id="characters" className="flex flex-wrap w-[90%] ">
+    <div id="characters" className="flex flex-wrap ">
       {allCharacters.map((char) => (
         <div
           key={char.id}

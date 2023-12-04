@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
-const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
+const Pagination = ({ paginate }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(80 / 10); i++) {
     pageNumbers.push(i);
   }
   //   console.log(postsPerPage, totalPosts, paginate);
   return (
-    <nav className="cursor-pointer absolute bottom-0 pb-6 ml-5">
-      <ul className="flex">
+    <nav className="cursor-pointer pb-4 ml-5">
+      <ul className="flex flex-col sm:flex-row gap-y-4">
         {pageNumbers.map((number) => (
           <li
             key={number}

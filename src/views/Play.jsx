@@ -7,13 +7,23 @@ import Game from "../assets/Game";
 import Input from "../components/Input";
 import SuperHeroe from "../components/SuperHeroe";
 import { useGetRanking } from "../hooks/useGetRanking";
+import { getCharacters } from "../services/characters";
 
-const Play = (props) => {
-  const allCharacters = props.characters;
-  const [rounds, setRounds] = useState(0);
+const Play = () => {
+  const [allCharacters, setAllCharacters] = useState([]);
+  const [rounds, setRounds] = useState("");
   const [winners, setWinners] = useState([]);
   const { getFights, fights } = useGetFights(allCharacters, rounds);
   const { ranking, getRanking } = useGetRanking();
+
+  const getAll = async () => {
+    const results = await getCharacters();
+    setAllCharacters(results);
+  };
+
+  useEffect(() => {
+    getAll();
+  }, []);
 
   const onHandleSetWinners = () => {
     const nodo = ref(db, "winners");
@@ -80,7 +90,7 @@ const Play = (props) => {
   };
 
   return (
-    <div className="text-center p-8">
+    <div className="text-center p-8 ">
       <Input
         handleChange={handleChange}
         value={rounds}
