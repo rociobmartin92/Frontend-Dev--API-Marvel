@@ -49,7 +49,6 @@ const Characters = () => {
 
   return (
     <div className="container mx-auto items-center justify-center ">
-      <Back color="#FFFFFF" />
       <CharacterBox onHandleChar={onHandleChar} allCharacters={allCharacters} />
       <Pagination paginate={paginate} />
       {showModal ? (

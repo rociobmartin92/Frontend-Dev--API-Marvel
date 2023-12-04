@@ -38,7 +38,7 @@ const Ranking = () => {
   };
 
   return (
-    <div className="container mx-auto  mt-610">
+    <div className="container mx-auto pt-10">
       <div className="flex  justify-center">
         <Cup color="#FFD700" />
         <h2 className="text-2xl font-bold ml-1">Ranking</h2>
