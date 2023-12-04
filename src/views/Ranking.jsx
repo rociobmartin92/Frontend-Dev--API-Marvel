@@ -38,8 +38,8 @@ const Ranking = () => {
   };
 
   return (
-    <div className="container mx-auto pt-10">
-      <div className="flex  justify-center">
+    <div className="container mx-auto">
+      <div className="flex  pt-10 justify-center">
         <Cup color="#FFD700" />
         <h2 className="text-2xl font-bold ml-1">Ranking</h2>
       </div>
